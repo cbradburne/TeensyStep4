@@ -33,11 +33,21 @@ namespace TS4
 
     void Stepper::moveAbsAsync(int32_t target, uint32_t v)
     {
+        accOG = acc;
+        avRotA = ((v*v)/2);
+        if avRotA < acc {
+            acc = avRotA;
+        }
         StepperBase::startMoveTo(target, 0, (v == 0 ? vMax : v), acc);
     }
 
     void Stepper::moveRelAsync(int32_t delta, uint32_t v)
     {
+        accOG = acc;
+        avRotA = ((v*v)/2);
+        if avRotA < acc {
+            acc = avRotA;
+        }
         StepperBase::startMoveTo(pos + delta, 0, (v == 0 ? std::abs(vMax) : v), acc);
     }
 
@@ -54,20 +64,32 @@ namespace TS4
 
     void Stepper::moveAbs(int32_t target, uint32_t v)
     {
+        accOG = acc;
+        avRotA = ((v*v)/2);
+        if avRotA < acc {
+            acc = avRotA;
+        }
         moveAbsAsync(target, v);
         while (isMoving)
         {
             delay(10);
         }
+        acc = accOG;
     }
 
     void Stepper::moveRel(int32_t delta, uint32_t v)
     {
+        accOG = acc;
+        avRotA = ((v*v)/2);
+        if avRotA < acc {
+            acc = avRotA;
+        }
         moveRelAsync(delta, v);
         while (isMoving)
         {
             delay(10);
         }
+        acc = accOG;
     }
 
     void Stepper::stop()
