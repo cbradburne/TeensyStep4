@@ -23,6 +23,11 @@ namespace TS4
 
     void Stepper::rotateAsync(int32_t v)
     {
+        accOG = acc;
+        avRotA = ((v*v)/2);
+        if avRotA < acc {
+            acc = avRotA;
+        }
         StepperBase::startRotate(v == 0 ? vMax : v, acc);
     }
 
@@ -39,6 +44,7 @@ namespace TS4
     void Stepper::stopAsync()
     {
         StepperBase::startStopping(0, acc);
+        acc = accOG;
     }
 
     void Stepper::moveAsync()
@@ -67,6 +73,7 @@ namespace TS4
     void Stepper::stop()
     {
         StepperBase::startStopping(0, acc);
+        acc = accOG;
     }
 
     // void moveRelAsync(int delta);

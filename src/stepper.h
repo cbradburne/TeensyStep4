@@ -38,6 +38,8 @@ namespace TS4
         int32_t vMax = vMaxDefault;
         uint32_t acc  = aDefault;
         uint32_t avMax;
+        uint32_t accOG;
+        uint32_t avRotA;
        // uint32_t s_t  = 0;
      protected:
 
